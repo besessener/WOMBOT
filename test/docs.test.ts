@@ -56,7 +56,30 @@ function brokenLinks(file: string): string[] {
   });
 }
 
+/** UTF-8 read as Windows-1252 and saved again: "ü" becomes "Ã¼", "–" becomes "â€“". */
+const DOUBLE_ENCODED =
+  /\u00c3[\u0080-\u00bf\u0152\u0153\u0160\u0161\u0178\u017d\u017e\u02c6\u02dc\u2013-\u203a\u20ac\u2122]|\u00e2\u20ac|\u00c2[\u00a0-\u00bf]/;
+
+function textFiles(): string[] {
+  return [
+    ...documentationFiles(),
+    join(root, "CLAUDE.md"),
+    join(root, "site/index.html"),
+    join(root, "appPackage/manifest.json"),
+    join(root, "appPackage/declarativeAgent.json"),
+    join(root, "appPackage/instruction.txt"),
+  ];
+}
+
 describe("documentation", () => {
+  it("has no double-encoded UTF-8 in the docs, the website or the app package", () => {
+    const broken = textFiles().filter((file) => DOUBLE_ENCODED.test(readFileSync(file, "utf8")));
+    assert.deepEqual(
+      broken.map((file) => relative(root, file)),
+      [],
+    );
+  });
+
   it("has no broken relative links or anchors", () => {
     assert.deepEqual(documentationFiles().flatMap(brokenLinks), []);
   });
