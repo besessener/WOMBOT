@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.30",
+  "version": "0.1.0",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "besessener",
+    "websiteUrl": "https://github.com/besessener/WOMBOT",
+    "privacyUrl": "https://github.com/besessener/WOMBOT/blob/main/docs/explanation/grundregeln.md",
+    "termsOfUseUrl": "https://github.com/besessener/WOMBOT/blob/main/LICENSE"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "WOMBOT${{APP_NAME_SUFFIX}}",
+    "full": "WOMBOT – Who Owes Me Bot"
+  },
+  "description": {
+    "short": "Finds what others promised you in mail, Teams and meetings.",
+    "full": "WOMBOT reads your mail, Teams chats and meeting transcripts and lists the commitments people made to you (and, if you ask, the ones you made): who promised what, when it is due, whether it looks done, with a link to the source. It only reads; reminders are drafts you send yourself."
+  },
+  "accentColor": "#BE185D",
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "declarativeAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  },
+  "validDomains": []
+}

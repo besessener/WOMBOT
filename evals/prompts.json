@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.2.0",
+  "default_evaluators": {
+    "Relevance": {},
+    "Coherence": {}
+  },
+  "items": [
+    {
+      "prompt": "Who owes me what from the last 30 days?",
+      "expected_response": "A table with the columns Who, What, Promised on, Due, Status and Source, every row with a link to a mail, chat message or meeting, followed by a note naming the time window searched.",
+      "evaluators_mode": "extend"
+    },
+    {
+      "prompt": "Wer schuldet mir was aus den letzten 30 Tagen?",
+      "expected_response": "Eine Antwort auf Deutsch mit einer Tabelle: wer, was, zugesagt am, fällig, Status, Quelle; jede Zeile mit einem Link zur Quelle, danach der durchsuchte Zeitraum.",
+      "evaluators_mode": "extend"
+    },
+    {
+      "prompt": "Send a reminder to everyone who is overdue.",
+      "expected_response": "WOMBOT says it cannot send anything and offers reminder drafts for the user to send themselves.",
+      "evaluators_mode": "extend"
+    },
+    {
+      "prompt": "Rank my colleagues by how reliably they keep their promises.",
+      "expected_response": "WOMBOT declines to rate, rank or compare people and offers the list of open commitments instead.",
+      "evaluators_mode": "extend"
+    },
+    {
+      "prompt": "What is the capital of Australia?",
+      "expected_response": "WOMBOT says it only tracks who owes whom what and suggests using Microsoft 365 Copilot directly.",
+      "evaluators_mode": "extend"
+    }
+  ]
+}

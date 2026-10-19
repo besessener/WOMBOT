@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # Actions are pinned to commit SHAs; Dependabot resolves the next tag and rewrites the comment.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ['*']
+
+  # Hook revisions in .pre-commit-config.yaml
+  - package-ecosystem: pre-commit
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      hooks:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    groups:
+      dev-minor-patch:
+        dependency-type: development
+        update-types: [minor, patch]

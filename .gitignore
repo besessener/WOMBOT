@@ -1,0 +1,13 @@
+node_modules/
+lcov.info
+*.tsbuildinfo
+.claude/worktrees/
+
+# Agents Toolkit: built packages and tenant-specific values (only the .example files are committed)
+appPackage/build/
+env/.env.dev
+env/.env.local
+env/.env.*.user
+.localConfigs
+.deployment
+.env
