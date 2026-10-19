@@ -52,9 +52,18 @@ export function policyViolations(appPackage: AppPackage): string[] {
 function manifestViolations({ manifest, agents }: AppPackage): string[] {
   const copilotAgents = (manifest.copilotAgents ?? {}) as JsonObject;
   return [
+    ...versionViolations(manifest.version),
     ...unexpectedKeys(manifest, ALLOWED_MANIFEST_KEYS, "manifest.json"),
     ...unexpectedKeys(copilotAgents, ALLOWED_COPILOT_AGENTS_KEYS, "manifest.json copilotAgents"),
     ...(agents.length === 1 ? [] : [`manifest.json: expected exactly one declarative agent, found ${agents.length}`]),
+  ];
+}
+
+/** Microsoft's package validation rejects app versions with a leading 0 (0.1.0, 0.9); the schema does not. */
+function versionViolations(version: unknown): string[] {
+  if (typeof version === "string" && !version.startsWith("0")) return [];
+  return [
+    `manifest.json: version "${String(version)}" must not start with 0 (Microsoft rejects it); use 1.0.0 or later`,
   ];
 }
 

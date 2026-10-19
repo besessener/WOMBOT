@@ -46,7 +46,8 @@ prek run --all-files   # gitleaks, zizmor, file hygiene
 
 ## Veröffentlichen
 
-1. Setze die Version in `package.json` und `appPackage/manifest.json` gleich und aktualisiere den Stand-Hinweis in der
+1. Setze die Version in `package.json` und `appPackage/manifest.json` gleich (ab 1.0.0; Microsoft lehnt Versionen
+   mit führender 0 ab) und aktualisiere den Stand-Hinweis in der
    [README](README.md) und in `site/index.html`. Merge das über einen Pull Request.
 2. Tagge den Merge-Commit auf `main` und pushe den Tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
 3. Stell die neue Version bereit, wie unter [Bereitstellen und freigeben](docs/how-to/bereitstellen.md) beschrieben.

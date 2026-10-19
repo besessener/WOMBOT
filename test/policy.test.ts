@@ -26,6 +26,7 @@ function appPackage(overrides: { manifest?: JsonObject; agent?: JsonObject; inst
   return {
     manifest: overrides.manifest ?? {
       manifestVersion: "1.30",
+      version: "1.0.0",
       copilotAgents: { declarativeAgents: [{ id: "declarativeAgent", file: "declarativeAgent.json" }] },
     },
     agents: [{ file: "declarativeAgent.json", agent, instructions: overrides.instructions ?? instructions }],
@@ -82,8 +83,25 @@ describe("policyViolations", () => {
     });
   }
 
+  for (const version of ["0.1.0", "0.9", undefined]) {
+    it(`refuses the app version ${String(version)}, which Microsoft rejects`, () => {
+      const manifest = { ...appPackage().manifest, version };
+      assert.deepEqual(policyViolations(appPackage({ manifest })), [
+        `manifest.json: version "${String(version)}" must not start with 0 (Microsoft rejects it); use 1.0.0 or later`,
+      ]);
+    });
+  }
+
+  it("accepts app versions from 1.0.0 on", () => {
+    for (const version of ["1.0.0", "1.5.1", "10.0"]) {
+      const manifest = { ...appPackage().manifest, version };
+      assert.deepEqual(policyViolations(appPackage({ manifest })), []);
+    }
+  });
+
   it("refuses API plugins and custom engine agents next to the declarative agent", () => {
     const manifest = {
+      version: "1.0.0",
       copilotAgents: { declarativeAgents: [], plugins: [], customEngineAgents: [] },
     };
     const violations = policyViolations(appPackage({ manifest }));
@@ -92,9 +110,12 @@ describe("policyViolations", () => {
   });
 
   it("refuses a package without exactly one declarative agent", () => {
-    const empty: AppPackage = { manifest: { copilotAgents: { declarativeAgents: [] } }, agents: [] };
+    const empty: AppPackage = {
+      manifest: { version: "1.0.0", copilotAgents: { declarativeAgents: [] } },
+      agents: [],
+    };
     assert.deepEqual(policyViolations(empty), ["manifest.json: expected exactly one declarative agent, found 0"]);
-    const missing: AppPackage = { manifest: {}, agents: [] };
+    const missing: AppPackage = { manifest: { version: "1.0.0" }, agents: [] };
     assert.deepEqual(policyViolations(missing), ["manifest.json: expected exactly one declarative agent, found 0"]);
   });
 

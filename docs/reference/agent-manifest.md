@@ -44,6 +44,12 @@ Erlaubt sind nur die Eigenschaften, die ein reiner deklarativer Agent braucht (`
 `localizationInfo`) und unter `copilotAgents` nur `declarativeAgents` mit genau einem Agenten. Bots,
 Nachrichtenerweiterungen, Tabs, API-Plugins, Custom Engine Agents und Agent-Connectors (MCP) lehnt die Prüfung ab.
 
+## Version
+
+`version` in `appPackage/manifest.json` ist dieselbe wie in `package.json` (ein Test prüft das) und beginnt nie mit
+`0`: Microsofts Paketprüfung lehnt Versionen wie `0.1.0` ab, das JSON-Schema nicht. `npm run validate` prüft das
+deshalb selbst. Jede neue Veröffentlichung im Mandanten braucht eine höhere Version.
+
 ## Platzhalter
 
 Das Agents Toolkit ersetzt `${{NAME}}` beim Bauen aus `env/.env.<umgebung>`. Zum Prüfen setzt `npm run validate`
