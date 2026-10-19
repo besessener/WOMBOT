@@ -1,6 +1,6 @@
 {
   "name": "wombot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "WOMBOT (Who Owes Me Bot): a read-only declarative agent for Microsoft 365 Copilot that finds what people promised you.",
   "type": "module",

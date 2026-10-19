@@ -12,6 +12,12 @@ describe("checkRepository", () => {
     assert.deepEqual(checkRepository(root), []);
   });
 
+  it("gives the app package the same version as package.json", () => {
+    const readVersion = (path: string) =>
+      (JSON.parse(readFileSync(join(root, path), "utf8")) as { version: string }).version;
+    assert.equal(readVersion("appPackage/manifest.json"), readVersion("package.json"));
+  });
+
   it("reports schema errors with the file and path", () => {
     const copy = copyRepository();
     editJson(join(copy, "appPackage/declarativeAgent.json"), (agent) => {

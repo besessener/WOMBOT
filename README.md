@@ -24,7 +24,7 @@ andere dir zugesagt haben: wer, was, bis wann, ob es erledigt aussieht und wo es
 - **Liest nur** – Erinnerungen sind Entwürfe, die du selbst sendest. Eine Prüfung im Repository lässt den Build
   scheitern, sobald eine schreibende Fähigkeit dazukommt ([Grundregeln](docs/explanation/grundregeln.md)).
 
-> **Stand:** Version 0.1.0. Anweisungen, Manifest und Prüfungen stehen; WOMBOT lässt sich mit dem Microsoft 365
+> **Stand:** Version 1.0.0. Anweisungen, Manifest und Prüfungen stehen; WOMBOT lässt sich mit dem Microsoft 365
 > Agents Toolkit bereitstellen. Die Antworten werden noch an echten Postfächern geschärft.
 
 ## Loslegen
