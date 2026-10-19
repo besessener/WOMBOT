@@ -1,8 +1,20 @@
 # Schemas aktualisieren
 
 Die JSON-Schemas von Microsoft liegen unter `schemas/`, damit Prüfung und Tests ohne Netz laufen und eine neue
-Version bewusst übernommen wird. `npm run validate` wählt das Schema nach `manifestVersion` im App-Manifest
-(`schemas/teams-v<version>.json`) und nach `version` im Agenten (`schemas/declarative-agent-<version>.json`).
+Version bewusst übernommen wird. `npm run validate` wählt das Schema nach der Version, die die Datei nennt:
+
+| Datei | Schema |
+| --- | --- |
+| `appPackage/manifest.json` (`manifestVersion`) | `schemas/teams-v<version>.json` |
+| Sprachdateien (`manifestVersion` des App-Manifests) | `schemas/teams-localization-v<version>.json` |
+| `appPackage/declarativeAgent.json` (`version`) | `schemas/declarative-agent-<version>.json` |
+| `evals/prompts.json` (`schemaVersion`) | `schemas/eval-prompts-v<version>.json` |
+
+Mit einer neuen `manifestVersion` brauchst du also beide Teams-Schemas, und das `$schema` in `en.json` und `de.json`
+zeigt auf dieselbe Version (`https://developer.microsoft.com/en-us/json-schemas/teams/v<version>/MicrosoftTeams.Localization.schema.json`;
+ohne `/en-us/` warnt Microsofts Paketprüfung). Das Evaluierungsschema stammt aus
+[microsoft/work-iq](https://github.com/microsoft/work-iq) (`references/prompts-schema.json` des Skills
+`m365-agent-evaluator`).
 
 ## Eine neue Version übernehmen
 

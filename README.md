@@ -24,8 +24,8 @@ andere dir zugesagt haben: wer, was, bis wann, ob es erledigt aussieht und wo es
 - **Liest nur** – Erinnerungen sind Entwürfe, die du selbst sendest. Eine Prüfung im Repository lässt den Build
   scheitern, sobald eine schreibende Fähigkeit dazukommt ([Grundregeln](docs/explanation/grundregeln.md)).
 
-> **Stand:** Version 1.0.0. Anweisungen, Manifest und Prüfungen stehen; WOMBOT lässt sich mit dem Microsoft 365
-> Agents Toolkit bereitstellen. Die Antworten werden noch an echten Postfächern geschärft.
+> **Stand:** Version 1.1.0. WOMBOT läuft in Microsoft 365 Copilot, auf Deutsch und Englisch, bereitgestellt mit dem
+> Microsoft 365 Agents Toolkit. Die Antworten werden noch an echten Postfächern geschärft.
 
 ## Loslegen
 
@@ -39,7 +39,8 @@ npm run check        # lint, types, dead code, app package against schemas and p
 ```
 
 Danach im Agents Toolkit **Provision** wählen: WOMBOT erscheint im Copilot, zunächst nur für dich. Schritt für
-Schritt: [Erste Schritte](docs/tutorials/erste-schritte.md).
+Schritt: [Erste Schritte](docs/tutorials/erste-schritte.md). Im Alltag erreichst du ihn mit `@WOMBOT` in jedem
+Copilot-Chat oder per Verknüpfung auf dem Desktop: [WOMBOT schnell erreichen](docs/how-to/schnell-erreichen.md).
 
 ## Dokumentation
 

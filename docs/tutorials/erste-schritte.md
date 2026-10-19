@@ -41,7 +41,7 @@ Das Toolkit baut das Paket nach `appPackage/build/`, prüft es, legt die App an 
 ## 3. Ausprobieren
 
 1. Öffne <https://m365.cloud.microsoft/chat>.
-2. Wähle in der Liste der Agenten **WOMBOTdev**.
+2. Wähle in der Liste der Agenten **WOMBOT**.
 3. Lies den Hinweis zu Beginn und wähle den Starter **Who owes me what?** – oder frag auf Deutsch:
    „Wer schuldet mir was aus den letzten 30 Tagen?“
 

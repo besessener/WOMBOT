@@ -9,6 +9,7 @@ appPackage/
 ├── manifest.json           Microsoft-365-App-Manifest (Name, Icons, Verweis auf den Agenten)
 ├── declarativeAgent.json   der Agent: Fähigkeiten, Gesprächsstarter, Hinweis, Verhalten
 ├── instruction.txt         die Anweisungen – das eigentliche Produkt
+├── en.json, de.json        Texte, die man in Copilot sieht, auf Englisch und Deutsch
 ├── color.png               Icon 192 × 192
 └── outline.png             Icon 32 × 32, weiß auf transparent
 ```
@@ -22,11 +23,13 @@ Der TypeScript-Code unter `src/` läuft nie im Mandanten. Er prüft das App-Pake
 
 | Modul | Aufgabe |
 | --- | --- |
-| `src/package/` | Liest `appPackage/` so, wie das Agents Toolkit es baut: `${{VAR}}`-Platzhalter gefüllt, `$[file('…')]` aufgelöst. |
-| `src/schema/` | Prüft Manifest und Agent gegen Microsofts JSON-Schemas, die unter `schemas/` im Repository liegen. |
-| `src/policy/` | Prüft die [Grundregeln](grundregeln.md), die sich im Paket ausdrücken lassen: nur lesende Fähigkeiten, keine Aktionen, die Pflichtabschnitte der Anweisungen, die Längengrenze. |
-| `src/check.ts` | Fügt beides zusammen; `npm run validate` gibt das Ergebnis aus. |
+| `src/package/` | Liest `appPackage/` so, wie das Agents Toolkit es baut: `${{VAR}}`-Platzhalter gefüllt, `$[file('…')]` aufgelöst, Sprachdateien geladen. |
+| `src/schema/` | Prüft Manifest, Agent, Sprachdateien und `evals/prompts.json` gegen die JSON-Schemas, die unter `schemas/` im Repository liegen. |
+| `src/policy/` | Prüft die [Grundregeln](grundregeln.md), die sich im Paket ausdrücken lassen: nur lesende Fähigkeiten, keine Aktionen, die Pflichtabschnitte der Anweisungen, die Längengrenze, die Version; `localization.ts` prüft, dass jede Sprache vollständig ist. |
+| `src/check.ts` | Fügt alles zusammen; `npm run validate` gibt das Ergebnis aus. |
 | `src/cli/` | Die Befehle `validate` und `env:init`. |
+| `src/icons/` | Baut die beiden App-Icons aus `site/favicon.svg`; `scripts/render-icons.ts` rendert sie (`npm run icons`). |
+| `scripts/` | Hilfsskripte für Menschen: Icons rendern, Verknüpfung anlegen (`npm run shortcut`). |
 
 Die Schemas liegen im Repository, damit Prüfung und Tests ohne Netz laufen und eine neue Version von Microsoft
 bewusst übernommen wird ([Schemas aktualisieren](../how-to/schema-aktualisieren.md)).
@@ -41,6 +44,20 @@ Ein deklarativer Agent braucht nichts davon: Er nutzt die Berechtigungen der fra
 Microsoft 365 nicht. Der Preis ist, dass Regeln für das Verhalten nur in den Anweisungen stehen können. WOMBOT
 gleicht das aus, indem er **nur liest** – was er nicht tun kann, muss keine Anweisung verbieten. Die
 [Grundregeln](grundregeln.md) beschreiben, welche Regel wo durchgesetzt wird.
+
+## Wie viel Agent steckt drin
+
+Ehrlich gesagt: wenig Eigenes. Das Planen – welche Suchen nötig sind, wie oft nachgefasst wird, wie die Antwort
+entsteht – übernimmt der Orchestrator von Copilot. WOMBOT steuert ihn nur über Anweisungen, Datenquellen und
+Gesprächsstarter. Daraus folgt:
+
+- WOMBOT handelt nur, wenn du fragst; nichts läuft im Hintergrund oder nach Zeitplan.
+- Er hat kein Gedächtnis: Jede Frage beginnt von vorn, „erledigt“ oder „ignorieren“ merkt er sich nicht.
+- Status und Fälligkeiten bestimmt das Modell nach den Anweisungen, nicht geprüfter Code.
+
+Ein eigener Agent mit Gedächtnis, Zeitplan und getesteter Logik wäre ein *Custom Engine Agent* oder ein deklarativer
+Agent mit eigenem Backend – mit den Kosten oben. Das ist eine bewusste Entscheidung für den Anfang, keine Grenze für
+immer.
 
 ## Grenzen
 

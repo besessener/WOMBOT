@@ -1,0 +1,32 @@
+name: Release
+
+# Pushing a tag vX.Y.Z publishes a GitHub release with notes generated from the merged pull requests.
+# No app package is attached: it is built per tenant by the Agents Toolkit from the tenant's own env file.
+on:
+  push:
+    tags: ["v*"]
+
+permissions: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the tag against package.json and the app manifest
+        run: |
+          version="$(node -p 'require("./package.json").version')"
+          manifest="$(node -p 'require("./appPackage/manifest.json").version')"
+          if [ "$GITHUB_REF_NAME" != "v$version" ] || [ "$manifest" != "$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, package.json $version and appPackage/manifest.json $manifest must match"
+            exit 1
+          fi
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --title "WOMBOT $GITHUB_REF_NAME" --generate-notes

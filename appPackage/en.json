@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.30/MicrosoftTeams.Localization.schema.json",
+  "name.short": "WOMBOT${{APP_NAME_SUFFIX}}",
+  "name.full": "WOMBOT – Who Owes Me Bot",
+  "description.short": "Finds what others promised you in mail, Teams and meetings.",
+  "description.full": "WOMBOT reads your mail, Teams chats and meeting transcripts and lists the commitments people made to you (and, if you ask, the ones you made): who promised what, when it is due, whether it looks done, with a link to the source. It only reads; reminders are drafts you send yourself.",
+  "localizationKeys": {
+    "agent_description": "Who owes me what? Finds commitments people made to you in mail, Teams chats and meetings, with status and a link to the source. Read-only.",
+    "starter_all_title": "Who owes me what?",
+    "starter_all_text": "Who owes me what from the last 30 days?",
+    "starter_overdue_title": "Overdue",
+    "starter_overdue_text": "Which promises to me are overdue?",
+    "starter_person_title": "One person",
+    "starter_person_text": "What has [name] promised me and not delivered yet?",
+    "starter_meeting_title": "One meeting",
+    "starter_meeting_text": "Which action items from my last meeting about [topic] are assigned to others and still open?",
+    "starter_own_title": "What do I owe?",
+    "starter_own_text": "What have I promised others that is still open?",
+    "starter_reminder_title": "Draft a reminder",
+    "starter_reminder_text": "Draft a friendly reminder for the oldest open promise to me."
+  }
+}

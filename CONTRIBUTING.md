@@ -25,9 +25,12 @@ Zum Bereitstellen brauchst du außerdem das Microsoft 365 Agents Toolkit und ein
 | Lint und Typprüfung | `npm run lint` |
 | Alle lokalen Qualitätsprüfungen | `npm run check` |
 | Formatieren und sichere Korrekturen | `npm run format` |
+| App-Icons aus `site/favicon.svg` neu erzeugen | `npm run icons` |
+| Verknüpfung auf dem Desktop (Windows) | `npm run shortcut` |
 
 Was WOMBOT tut, steht in `appPackage/instruction.txt`; wie du das änderst und ausprobierst:
-[Anweisungen ändern](docs/how-to/anweisungen-aendern.md).
+[Anweisungen ändern](docs/how-to/anweisungen-aendern.md). Texte, die man in Copilot sieht, stehen in
+`appPackage/en.json` und `de.json`: [Texte übersetzen](docs/how-to/texte-uebersetzen.md).
 
 ## Bevor du einen Pull Request öffnest
 

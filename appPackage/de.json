@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.30/MicrosoftTeams.Localization.schema.json",
+  "name.short": "WOMBOT${{APP_NAME_SUFFIX}}",
+  "name.full": "WOMBOT – Who Owes Me Bot",
+  "description.short": "Findet, was andere dir in Mail, Teams und Besprechungen zugesagt haben.",
+  "description.full": "WOMBOT liest deine Mails, Teams-Chats und Besprechungstranskripte und listet die Zusagen, die andere dir gemacht haben (und auf Wunsch deine eigenen): wer was versprochen hat, bis wann, ob es erledigt aussieht, mit Link zur Quelle. WOMBOT liest nur; Erinnerungen sind Entwürfe, die du selbst sendest.",
+  "localizationKeys": {
+    "agent_description": "Wer schuldet mir was? Findet Zusagen, die andere dir in Mail, Teams-Chats und Besprechungen gemacht haben, mit Status und Link zur Quelle. Liest nur.",
+    "starter_all_title": "Wer schuldet mir was?",
+    "starter_all_text": "Wer schuldet mir was aus den letzten 30 Tagen?",
+    "starter_overdue_title": "Überfällig",
+    "starter_overdue_text": "Welche Zusagen an mich sind überfällig?",
+    "starter_person_title": "Eine Person",
+    "starter_person_text": "Was hat mir [Name] zugesagt und noch nicht geliefert?",
+    "starter_meeting_title": "Eine Besprechung",
+    "starter_meeting_text": "Welche Aufgaben aus meiner letzten Besprechung zu [Thema] liegen bei anderen und sind noch offen?",
+    "starter_own_title": "Was schulde ich?",
+    "starter_own_text": "Was habe ich anderen zugesagt, das noch offen ist?",
+    "starter_reminder_title": "Erinnerung entwerfen",
+    "starter_reminder_text": "Entwirf eine freundliche Erinnerung für die älteste offene Zusage an mich."
+  }
+}

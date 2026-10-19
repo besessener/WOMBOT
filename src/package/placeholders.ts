@@ -5,7 +5,7 @@ const PLACEHOLDER = /\$\{\{([A-Za-z0-9_]+)\}\}/g;
 /** Stand-ins for the Agents Toolkit's `${{VAR}}` values, valid against the schemas, used only to validate offline. */
 export const VALIDATION_VALUES: Readonly<Record<string, string>> = {
   TEAMS_APP_ID: "00000000-0000-0000-0000-000000000000",
-  APP_NAME_SUFFIX: "dev",
+  APP_NAME_SUFFIX: "local",
 };
 
 /** Replaces every `${{NAME}}` in `text`; an unknown name is an error, so a typo never reaches a tenant. */

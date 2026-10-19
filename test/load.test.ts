@@ -41,7 +41,7 @@ describe("loadAppPackage", () => {
     const loaded = loadAppPackage(directory, VALIDATION_VALUES);
     assert.equal(loaded.manifest.id, VALIDATION_VALUES.TEAMS_APP_ID);
     assert.deepEqual(loaded.agents, [
-      { file: "agent.json", agent: { name: "Wdev", instructions: "Be brief." }, instructions: "Be brief." },
+      { file: "agent.json", agent: { name: "Wlocal", instructions: "Be brief." }, instructions: "Be brief." },
     ]);
   });
 
@@ -53,9 +53,34 @@ describe("loadAppPackage", () => {
     assert.equal(loadAppPackage(directory, VALIDATION_VALUES).agents[0]?.instructions, "Inline.");
   });
 
-  it("returns no agents when the manifest declares none", () => {
+  it("returns no agents and no languages when the manifest declares none", () => {
     const directory = packageDirectory({ "manifest.json": "{}" });
-    assert.deepEqual(loadAppPackage(directory, VALIDATION_VALUES), { manifest: {}, agents: [] });
+    assert.deepEqual(loadAppPackage(directory, VALIDATION_VALUES), { manifest: {}, agents: [], languages: [] });
+  });
+
+  it("loads the default language file first, then the additional ones, with placeholders filled", () => {
+    const localizationInfo = {
+      defaultLanguageTag: "en",
+      defaultLanguageFile: "en.json",
+      additionalLanguages: [{ languageTag: "de", file: "de.json" }],
+    };
+    const directory = packageDirectory({
+      "manifest.json": JSON.stringify({ localizationInfo }),
+      "en.json": JSON.stringify({ "name.short": "W${{APP_NAME_SUFFIX}}" }),
+      "de.json": JSON.stringify({ "name.short": "W" }),
+    });
+    assert.deepEqual(loadAppPackage(directory, VALIDATION_VALUES).languages, [
+      { file: "en.json", strings: { "name.short": "Wlocal" } },
+      { file: "de.json", strings: { "name.short": "W" } },
+    ]);
+  });
+
+  it("loads only the default language file without additional languages", () => {
+    const directory = packageDirectory({
+      "manifest.json": JSON.stringify({ localizationInfo: { defaultLanguageFile: "en.json" } }),
+      "en.json": "{}",
+    });
+    assert.deepEqual(loadAppPackage(directory, VALIDATION_VALUES).languages, [{ file: "en.json", strings: {} }]);
   });
 
   const broken: [string, Record<string, string>, string][] = [
@@ -67,6 +92,11 @@ describe("loadAppPackage", () => {
       "an agent entry without a file",
       { "manifest.json": JSON.stringify({ copilotAgents: { declarativeAgents: [{ id: "a" }] } }) },
       "manifest.json: a declarative agent has no file",
+    ],
+    [
+      "a language without a file",
+      { "manifest.json": JSON.stringify({ localizationInfo: { additionalLanguages: [{ languageTag: "de" }] } }) },
+      "manifest.json: a language in localizationInfo has no file",
     ],
     [
       "an agent file outside the package",

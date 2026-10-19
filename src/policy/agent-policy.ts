@@ -1,4 +1,5 @@
 import type { AppPackage, DeclarativeAgent, JsonObject } from "../package/load.ts";
+import { localizationViolations } from "./localization.ts";
 
 /** Read-only grounding in the user's own Microsoft 365 data. Anything else, above all `EmailActions`, is refused. */
 export const ALLOWED_CAPABILITIES = ["Email", "TeamsMessages", "Meetings", "People"] as const;
@@ -46,7 +47,11 @@ export const MAX_INSTRUCTION_LENGTH = 8000;
 
 /** Every way the package breaks WOMBOT's hard rules, as one message each. Empty means the package complies. */
 export function policyViolations(appPackage: AppPackage): string[] {
-  return [...manifestViolations(appPackage), ...appPackage.agents.flatMap(agentViolations)];
+  return [
+    ...manifestViolations(appPackage),
+    ...appPackage.agents.flatMap(agentViolations),
+    ...localizationViolations(appPackage),
+  ];
 }
 
 function manifestViolations({ manifest, agents }: AppPackage): string[] {
@@ -86,10 +91,16 @@ function capabilityViolations(file: string, capabilities: unknown): string[] {
   if (capabilities === undefined) return [];
   if (!Array.isArray(capabilities)) return [`${file}: capabilities must be an array`];
   const allowed: readonly string[] = ALLOWED_CAPABILITIES;
-  return capabilities
+  const refused = capabilities
     .map((capability: { name?: unknown }) => String(capability.name))
     .filter((name) => !allowed.includes(name))
     .map((name) => `${file}: capability "${name}" is not allowed; allowed: ${ALLOWED_CAPABILITIES.join(", ")}`);
+  // Decided to stay off: it adds the documents, mails and chats shared with a person to every People lookup.
+  const widened = capabilities.some(
+    (capability: { name?: unknown; include_related_content?: unknown }) =>
+      capability.name === "People" && capability.include_related_content === true,
+  );
+  return widened ? [...refused, `${file}: People.include_related_content must stay off`] : refused;
 }
 
 function groundingViolations(file: string, agent: JsonObject): string[] {
