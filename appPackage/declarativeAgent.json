@@ -1,0 +1,69 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.8/schema.json",
+  "version": "v1.8",
+  "name": "WOMBOT${{APP_NAME_SUFFIX}}",
+  "description": "Who owes me what? Finds commitments people made to you in mail, Teams chats and meetings, with status and a link to the source. Read-only.",
+  "instructions": "$[file('instruction.txt')]",
+  "capabilities": [
+    {
+      "name": "Email"
+    },
+    {
+      "name": "TeamsMessages"
+    },
+    {
+      "name": "Meetings"
+    },
+    {
+      "name": "People"
+    }
+  ],
+  "conversation_starters": [
+    {
+      "title": "Who owes me what?",
+      "text": "Who owes me what from the last 30 days?"
+    },
+    {
+      "title": "Overdue",
+      "text": "Which promises to me are overdue?"
+    },
+    {
+      "title": "One person",
+      "text": "What has [name] promised me and not delivered yet?"
+    },
+    {
+      "title": "One meeting",
+      "text": "Which action items from my last meeting about [topic] are assigned to others and still open?"
+    },
+    {
+      "title": "What do I owe?",
+      "text": "What have I promised others that is still open?"
+    },
+    {
+      "title": "Draft a reminder",
+      "text": "Draft a friendly reminder for the oldest open promise to me."
+    }
+  ],
+  "behavior_overrides": {
+    "special_instructions": {
+      "discourage_model_knowledge": true
+    }
+  },
+  "disclaimer": {
+    "text": "WOMBOT only reads and can be wrong. Check the linked source before you remind anyone; WOMBOT never sends anything."
+  },
+  "user_overrides": [
+    {
+      "path": "$.capabilities[?(@.name == 'Email')]",
+      "allowed_actions": ["remove"]
+    },
+    {
+      "path": "$.capabilities[?(@.name == 'TeamsMessages')]",
+      "allowed_actions": ["remove"]
+    },
+    {
+      "path": "$.capabilities[?(@.name == 'Meetings')]",
+      "allowed_actions": ["remove"]
+    }
+  ]
+}
