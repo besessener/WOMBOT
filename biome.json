@@ -213,7 +213,7 @@
       }
     },
     {
-      "includes": ["src/cli/**"],
+      "includes": ["src/cli/**", "scripts/**"],
       "linter": {
         "rules": {
           "style": {

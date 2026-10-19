@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
   "manifestVersion": "1.30",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "id": "${{TEAMS_APP_ID}}",
   "developer": {
     "name": "besessener",
@@ -22,6 +22,16 @@
     "full": "WOMBOT reads your mail, Teams chats and meeting transcripts and lists the commitments people made to you (and, if you ask, the ones you made): who promised what, when it is due, whether it looks done, with a link to the source. It only reads; reminders are drafts you send yourself."
   },
   "accentColor": "#BE185D",
+  "localizationInfo": {
+    "defaultLanguageTag": "en",
+    "defaultLanguageFile": "en.json",
+    "additionalLanguages": [
+      {
+        "languageTag": "de",
+        "file": "de.json"
+      }
+    ]
+  },
   "copilotAgents": {
     "declarativeAgents": [
       {

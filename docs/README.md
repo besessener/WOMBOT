@@ -16,11 +16,14 @@ Die Dokumentation folgt [Diátaxis](https://diataxis.fr/): Sie ist nach dem geor
 **WOMBOT benutzen**
 
 - [Bereitstellen und freigeben](how-to/bereitstellen.md) – nur für dich, per Link oder für den ganzen Mandanten.
+- [WOMBOT schnell erreichen](how-to/schnell-erreichen.md) – `@WOMBOT` in jedem Copilot-Chat, angeheftet, als
+  Verknüpfung auf dem Desktop.
 
 **WOMBOT entwickeln**
 
 - [Mitmachen](../CONTRIBUTING.md) – einrichten, arbeiten, Pull Request öffnen, veröffentlichen.
 - [Anweisungen ändern](how-to/anweisungen-aendern.md) – `instruction.txt` bearbeiten, prüfen und im Copilot ausprobieren.
+- [Texte übersetzen](how-to/texte-uebersetzen.md) – Beschreibung und Gesprächsstarter auf Englisch und Deutsch.
 - [Schemas aktualisieren](how-to/schema-aktualisieren.md) – eine neue Manifest-Version von Microsoft übernehmen.
 - [Webseite pflegen](how-to/webseite-pflegen.md) – `site/` und der Pages-Workflow.
 

@@ -45,6 +45,8 @@ quietly. Reasoning lives in `docs/explanation/`, not here.
   instruction sections in `REQUIRED_INSTRUCTION_SECTIONS` stay; reword them only without weakening them.
 - **No source, no entry.** WOMBOT never invents commitments, people, dates or links; `discourage_model_knowledge`
   stays `true`.
+- **No more data than needed.** `People.include_related_content` stays off; team mailboxes are not added (their
+  addresses would be organisation-specific).
 - **Commitments, not people.** WOMBOT never rates, ranks, scores or compares people and keeps no per-person
   statistics, even when asked.
 - **No tenant identifiers in git.** `env/.env.dev` and `env/.env.local` stay ignored; only the `.example` files are
@@ -73,8 +75,11 @@ quietly. Reasoning lives in `docs/explanation/`, not here.
   as parameters and touches neither the filesystem nor the network.
 - **Comments:** one line, only for a non-obvious constraint, workaround, invariant or external behaviour.
 - **Language:** the website, the READMEs, `CONTRIBUTING.md` and `docs/` are German and address the reader as „du“;
-  everything else is English – instructions, manifest strings, identifiers, comments, CLI output and this file.
-  WOMBOT answers users in the language they write in.
+  everything else is English – instructions, identifiers, comments, CLI output and this file. What users see in
+  Copilot (names, descriptions, conversation starters) exists in English and German: `appPackage/en.json` and
+  `de.json`, always changed together. WOMBOT answers users in the language they write in.
+- **Encoding:** never read or write text files with Windows PowerShell 5.1 `Get-Content`/`Set-Content`; it treats
+  UTF-8 without a BOM as Windows-1252 and double-encodes umlauts. `.ps1` scripts stay ASCII-only.
 - **Tests:** assert behaviour, not implementation. Policy changes get a test that the forbidden thing is refused.
 - **Docs sync:** a change to behaviour, the instructions' rules, capabilities or a design decision updates the
   matching `docs/` file in the same change. The root `README.md` stays short.

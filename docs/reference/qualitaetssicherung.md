@@ -8,9 +8,10 @@ einem Rutsch aus.
 | Formatierung und Lint | `npm run lint` (`biome ci .`) | Formatierung von TypeScript, JSON, HTML und CSS; Biomes empfohlene Regeln plus die strengeren aus [`biome.json`](../../biome.json) | `ci.yml` |
 | Typen | `npm run typecheck` (Teil von `lint`) | `tsc` strict über `src` und `test` | `ci.yml` |
 | Toter Code | `npm run knip` | Unbenutzte Dateien, Exporte und Abhängigkeiten ([`knip.json`](../../knip.json)) | `ci.yml` |
-| App-Paket | `npm run validate` | Manifest und Agent gegen Microsofts Schemas, dazu die [Grundregeln](../explanation/grundregeln.md) | `ci.yml` |
+| App-Paket | `npm run validate` | Manifest, Agent, Sprachdateien und `evals/prompts.json` gegen die Schemas, dazu die [Grundregeln](../explanation/grundregeln.md), Version ohne führende 0 und vollständige Übersetzungen | `ci.yml` |
 | Tests und Abdeckung | `npm run test:coverage` | Alle Tests, dazu Zeilen-, Zweig- und Funktionsabdeckung von `src/` über den Schwellen | `ci.yml` |
-| Dokumentation | `test/docs.test.ts` (Teil der Tests) | Relative Links und Anker; jede erlaubte Fähigkeit ist im [Agent-Manifest](agent-manifest.md) beschrieben | `ci.yml` |
+| Dokumentation | `test/docs.test.ts` (Teil der Tests) | Relative Links und Anker; jede erlaubte Fähigkeit ist im [Agent-Manifest](agent-manifest.md) beschrieben; keine doppelt kodierten Umlaute; PowerShell-Skripte nur ASCII | `ci.yml` |
+| Release | `release.yml` beim Push eines Tags `vX.Y.Z` | Tag, `package.json` und `appPackage/manifest.json` haben dieselbe Version; dann GitHub-Release mit Notizen aus den Pull Requests | `release.yml` |
 | Secrets | `gitleaks git` | Die ganze Git-Historie ([`.gitleaks.toml`](../../.gitleaks.toml)) | `ci.yml`, Job hygiene |
 | Dateihygiene und Workflows | `prek run --all-files` | Merge-Marker, YAML/JSON-Syntax, Dateien über 1 MB, private Schlüssel, Leerzeichen am Zeilenende, abschließender Zeilenumbruch, Zeilenenden; zizmor prüft die Workflows | `ci.yml`, Job hygiene |
 | Code-Scanning | CodeQL `security-extended` | JavaScript/TypeScript und die Workflows | `codeql.yml`, auch wöchentlich |
@@ -29,9 +30,9 @@ Abschnitte mit den Grundregeln in den Anweisungen stehen. Wie du Antworten prüf
 
 | Metrik | Schwelle | Gemessen (2026-10) |
 | --- | --- | --- |
-| Zeilen | 99 % | 100 % |
-| Zweige | 95 % | 96,8 % |
-| Funktionen | 97 % | 97,2 % |
+| Zeilen | 99 % | 99,6 % |
+| Zweige | 97 % | 97,4 % |
+| Funktionen | 98 % | 98,1 % |
 
 Die Schwellen liegen knapp unter den gemessenen Werten und werden nur angehoben, nie gesenkt.
 

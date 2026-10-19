@@ -71,6 +71,15 @@ function textFiles(): string[] {
   ];
 }
 
+describe("scripts", () => {
+  it("keeps PowerShell scripts ASCII-only, because Windows PowerShell 5.1 misreads UTF-8 without a BOM", () => {
+    const scripts = readdirSync(join(root, "scripts")).filter((name) => name.endsWith(".ps1"));
+    assert.ok(scripts.length > 0);
+    const nonAscii = scripts.filter((name) => readFileSync(join(root, "scripts", name)).some((byte) => byte > 127));
+    assert.deepEqual(nonAscii, []);
+  });
+});
+
 describe("documentation", () => {
   it("has no double-encoded UTF-8 in the docs, the website or the app package", () => {
     const broken = textFiles().filter((file) => DOUBLE_ENCODED.test(readFileSync(file, "utf8")));

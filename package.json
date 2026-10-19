@@ -1,6 +1,6 @@
 {
   "name": "wombot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "WOMBOT (Who Owes Me Bot): a read-only declarative agent for Microsoft 365 Copilot that finds what people promised you.",
   "type": "module",
@@ -19,9 +19,11 @@
     "knip": "knip",
     "validate": "node src/cli/validate.ts",
     "test": "node --test \"test/**/*.test.ts\"",
-    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" --test-coverage-lines=99 --test-coverage-branches=95 --test-coverage-functions=97 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info \"test/**/*.test.ts\"",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" --test-coverage-lines=99 --test-coverage-branches=97 --test-coverage-functions=98 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info \"test/**/*.test.ts\"",
     "check": "npm run lint && npm run knip && npm run validate && npm run test:coverage",
-    "env:init": "node src/cli/env-init.ts"
+    "env:init": "node src/cli/env-init.ts",
+    "icons": "node scripts/render-icons.ts",
+    "shortcut": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-shortcut.ps1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",

@@ -15,14 +15,32 @@ export function checkRepository(root: string): string[] {
     if (error instanceof PackageError) return [error.message];
     throw error;
   }
-  return [...schemaProblems(root, appPackage), ...policyViolations(appPackage)];
+  return [...schemaProblems(root, appPackage), ...evaluationProblems(root), ...policyViolations(appPackage)];
 }
 
-function schemaProblems(root: string, { manifest, agents }: AppPackage): string[] {
-  const manifestSchema = vendoredSchema(root, `teams-v${String(manifest.manifestVersion)}.json`);
-  const results = [check(manifestSchema, manifest, "manifest.json")];
+/** `evals/prompts.json` follows the evaluation schema its `schemaVersion` names, if the file exists. */
+function evaluationProblems(root: string): string[] {
+  const path = join(root, "evals/prompts.json");
+  if (!existsSync(path)) return [];
+  let dataset: JsonObject;
+  try {
+    dataset = JSON.parse(readFileSync(path, "utf8")) as JsonObject;
+  } catch (error) {
+    return [`evals/prompts.json: not valid JSON (${(error as Error).message})`];
+  }
+  const schema = vendoredSchema(root, `eval-prompts-v${String(dataset.schemaVersion)}.json`);
+  return check(schema, dataset, "evals/prompts.json");
+}
+
+function schemaProblems(root: string, { manifest, agents, languages }: AppPackage): string[] {
+  const version = String(manifest.manifestVersion);
+  const results = [check(vendoredSchema(root, `teams-v${version}.json`), manifest, "manifest.json")];
   for (const { file, agent } of agents) {
     results.push(check(vendoredSchema(root, `declarative-agent-${String(agent.version)}.json`), agent, file));
+  }
+  if (languages.length > 0) {
+    const languageSchema = vendoredSchema(root, `teams-localization-v${version}.json`);
+    for (const { file, strings } of languages) results.push(check(languageSchema, strings, file));
   }
   return results.flat();
 }

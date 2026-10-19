@@ -6,10 +6,10 @@ import type { Io } from "../src/cli/io.ts";
 
 export const root = fileURLToPath(new URL("..", import.meta.url));
 
-/** A throwaway copy of the real `appPackage/`, `schemas/` and `env/` to break on purpose. */
+/** A throwaway copy of the real `appPackage/`, `schemas/`, `env/` and `evals/` to break on purpose. */
 export function copyRepository(): string {
   const copy = mkdtempSync(join(tmpdir(), "wombot-"));
-  for (const directory of ["appPackage", "schemas", "env"]) {
+  for (const directory of ["appPackage", "schemas", "env", "evals"]) {
     cpSync(join(root, directory), join(copy, directory), {
       recursive: true,
       filter: (source) => !(source.includes("build") || /\.env\.(dev|local)$/.test(source)),

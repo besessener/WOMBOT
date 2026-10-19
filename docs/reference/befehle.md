@@ -5,7 +5,9 @@
 | Befehl | Was er tut |
 | --- | --- |
 | `npm run env:init` | Legt `env/.env.dev` und `env/.env.local` aus den `.example`-Dateien an, wenn sie fehlen; überschreibt nie. |
-| `npm run validate` | Prüft `appPackage/` gegen die Schemas und die Grundregeln. Exit-Code `0` gültig, `1` mit Problemen. |
+| `npm run validate` | Prüft `appPackage/` und `evals/prompts.json` gegen die Schemas und die Grundregeln. Exit-Code `0` gültig, `1` mit Problemen. |
+| `npm run shortcut` | Windows: Verknüpfung „WOMBOT“ auf Desktop und im Startmenü, siehe [WOMBOT schnell erreichen](../how-to/schnell-erreichen.md). |
+| `npm run icons` | Erzeugt `appPackage/color.png`, `appPackage/outline.png` und `site/img/wombot-192.png` aus `site/favicon.svg` mit einem installierten Edge oder Chrome (`CHROME_PATH` überschreibt die Suche). |
 | `npm test` | Alle Tests. |
 | `npm run test:coverage` | Alle Tests mit Abdeckungsschwellen; schreibt `lcov.info`. |
 | `npm run lint` | Biome (Format und Lint, auch für HTML, CSS und JSON) und die Typprüfung. |

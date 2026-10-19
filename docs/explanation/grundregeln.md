@@ -59,6 +59,9 @@ hast, und speichert nichts außerhalb von Microsoft 365.
 
 - **Microsoft 365:** Copilot setzt Berechtigungen, Vertraulichkeitsbezeichnungen und Aufbewahrungsrichtlinien des
   Mandanten durch; WOMBOT hat keinen Weg daran vorbei.
+- **Paket:** `People` bleibt auf das Organigramm beschränkt. `include_related_content` würde zu jeder Person auch die
+  Dokumente, Mails und Chats laden, die du mit ihr teilst – präziser für „was schuldet mir X“, aber mehr Daten je
+  Antwort, als WOMBOT braucht; Mail, Teams und Besprechungen decken Zusagen schon ab. Die Prüfung lehnt `true` ab.
 - **Anweisungen:** WOMBOT fasst keine privaten Gespräche zusammen, an denen du nicht beteiligt warst.
 - **Repository:** Mandantenspezifische Kennungen, die das Agents Toolkit beim Bereitstellen erzeugt, landen in
   `env/.env.dev` und `env/.env.local`; beide sind von Git ausgeschlossen.

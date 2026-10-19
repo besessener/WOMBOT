@@ -13,9 +13,17 @@ export interface DeclarativeAgent {
   readonly instructions: string;
 }
 
+export interface LanguageFile {
+  /** Path of the language file relative to the app package directory. */
+  readonly file: string;
+  readonly strings: JsonObject;
+}
+
 export interface AppPackage {
   readonly manifest: JsonObject;
   readonly agents: readonly DeclarativeAgent[];
+  /** The default language file first, then the additional ones; empty without `localizationInfo`. */
+  readonly languages: readonly LanguageFile[];
 }
 
 const FILE_REFERENCE = /^\$\[file\('([^']+)'\)\]$/;
@@ -24,7 +32,20 @@ const FILE_REFERENCE = /^\$\[file\('([^']+)'\)\]$/;
 export function loadAppPackage(directory: string, values: Readonly<Record<string, string>>): AppPackage {
   const manifest = readJson(directory, "manifest.json", values);
   const agents = agentEntries(manifest).map((file) => loadAgent(directory, file, values));
-  return { manifest, agents };
+  const languages = languageEntries(manifest).map((file) => ({ file, strings: readJson(directory, file, values) }));
+  return { manifest, agents, languages };
+}
+
+function languageEntries(manifest: JsonObject): string[] {
+  const info = manifest.localizationInfo as
+    | { defaultLanguageFile?: unknown; additionalLanguages?: unknown }
+    | undefined;
+  if (info === undefined) return [];
+  const additional = Array.isArray(info.additionalLanguages) ? info.additionalLanguages : [];
+  return [info.defaultLanguageFile, ...additional.map((language: { file?: unknown }) => language.file)].map((file) => {
+    if (typeof file !== "string") throw new PackageError("manifest.json: a language in localizationInfo has no file");
+    return file;
+  });
 }
 
 function agentEntries(manifest: JsonObject): string[] {

@@ -30,6 +30,7 @@ function appPackage(overrides: { manifest?: JsonObject; agent?: JsonObject; inst
       copilotAgents: { declarativeAgents: [{ id: "declarativeAgent", file: "declarativeAgent.json" }] },
     },
     agents: [{ file: "declarativeAgent.json", agent, instructions: overrides.instructions ?? instructions }],
+    languages: [],
   };
 }
 
@@ -53,6 +54,16 @@ describe("policyViolations", () => {
       assert.match(violations[0] ?? "", new RegExp(`capability "${capability}" is not allowed`));
     });
   }
+
+  it("keeps People.include_related_content off", () => {
+    const agent = compliantAgent();
+    agent.capabilities = [{ name: "People", include_related_content: true }];
+    assert.deepEqual(policyViolations(appPackage({ agent })), [
+      "declarativeAgent.json: People.include_related_content must stay off",
+    ]);
+    agent.capabilities = [{ name: "People", include_related_content: false }];
+    assert.deepEqual(policyViolations(appPackage({ agent })), []);
+  });
 
   it("refuses capabilities that are not an array", () => {
     const agent = { ...compliantAgent(), capabilities: { name: "Email" } };
@@ -113,9 +124,10 @@ describe("policyViolations", () => {
     const empty: AppPackage = {
       manifest: { version: "1.0.0", copilotAgents: { declarativeAgents: [] } },
       agents: [],
+      languages: [],
     };
     assert.deepEqual(policyViolations(empty), ["manifest.json: expected exactly one declarative agent, found 0"]);
-    const missing: AppPackage = { manifest: { version: "1.0.0" }, agents: [] };
+    const missing: AppPackage = { manifest: { version: "1.0.0" }, agents: [], languages: [] };
     assert.deepEqual(policyViolations(missing), ["manifest.json: expected exactly one declarative agent, found 0"]);
   });
 
